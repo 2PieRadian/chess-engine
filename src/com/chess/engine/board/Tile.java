@@ -7,10 +7,6 @@ import java.util.Map;
 
 public abstract class Tile {
 
-    /**
-     * The coordinate of the tile on the board.
-     * Marked as 'protected' to allow access in subclasses for extensibility.
-     */
     protected final int coordinate;
 
     private final static Map<Integer, EmptyTile> EMPTY_TILES_CACHE = getAllEmptyTiles();
