@@ -64,5 +64,4 @@ public class Knight extends Piece {
 
         return legalMoves;
     }
-
 }
