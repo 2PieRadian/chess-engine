@@ -28,7 +28,7 @@ public class Bishop extends Piece {
 
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
-        List<Move> legalMoves = new ArrayList<>();
+        final List<Move> legalMoves = new ArrayList<>();
 
         for (final int currentOffset : CANDIDATE_MOVES) {
             int currentDestinationCoordinate = this.getCoordinate();
