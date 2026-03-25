@@ -10,36 +10,38 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Bishop extends Piece {
+public class Rook extends Piece {
 
-    private final static int[] CANDIDATE_MOVES = {-9, -7, 7, 9};
+    private final static int[] CANDIDATE_MOVES = {-8, -1, 1, 8};
 
-    Bishop(int coordinate, Alliance alliance) {
+    Rook(int coordinate, Alliance alliance) {
         super(coordinate, alliance);
     }
 
-    private static boolean isFirstColumnExclusion(final int currentPosition, final int offset) {
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (offset == -9 || offset == 7);
+    private static boolean isFirstColumnExclusion(final int coordinate, final int offset) {
+        return BoardUtils.FIRST_COLUMN[coordinate] && (offset == -1);
     }
 
-    private static boolean isEightColumnExclusion(final int currentPosition, final int offset) {
-        return BoardUtils.EIGHT_COLUMN[currentPosition] && (offset == -7 || offset == 9);
+    private static boolean isEighthColumnExclusion(final int coordinate, final int offset) {
+        return BoardUtils.EIGHT_COLUMN[coordinate] && (offset == 1);
     }
 
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
-        List<Move> legalMoves = new ArrayList<>();
+        final List<Move> legalMoves = new ArrayList<>();
 
         for (final int currentOffset : CANDIDATE_MOVES) {
             int currentDestinationCoordinate = this.getCoordinate();
 
             while (BoardUtils.isValidTileCoordinate(currentDestinationCoordinate)) {
+                // Check Column Exclusions
                 if (isFirstColumnExclusion(currentDestinationCoordinate, currentOffset)
-                        || isEightColumnExclusion(currentDestinationCoordinate, currentOffset)) {
+                        || isEighthColumnExclusion(currentDestinationCoordinate, currentOffset)) {
                     break;
                 }
 
                 currentDestinationCoordinate += currentOffset;
+
                 if (BoardUtils.isValidTileCoordinate(currentDestinationCoordinate)) {
                     final Tile tileAtDestination = board.getTile(currentDestinationCoordinate);
                     if (tileAtDestination.isTileEmpty()) {
@@ -49,7 +51,6 @@ public class Bishop extends Piece {
                         if (this.getAlliance() != pieceAtDestination.getAlliance()) {
                             legalMoves.add(new Move.AttackMove(board, this, currentDestinationCoordinate, pieceAtDestination));
                         }
-                        // Bishop cannot move further, as this piece blocks next diagonal movement
                         break;
                     }
                 }

@@ -4,6 +4,7 @@ import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
+import com.chess.engine.board.Move.*;
 import com.chess.engine.board.Tile;
 
 import java.util.ArrayList;
@@ -39,29 +40,32 @@ public class Knight extends Piece {
         final List<Move> legalMoves = new ArrayList<>();
 
         for (final int currentCandidate : CANDIDATE_MOVES) {
-            final int candidateDestination = currentCandidate + getCoordinate();
+            final int piecePosition = getCoordinate();
+            final int candidateDestination = currentCandidate + piecePosition;
 
-            if (isFirstColumnExclusion(getCoordinate(), currentCandidate)) continue;
-            if (isSecondColumnExclusion(getCoordinate(), currentCandidate)) continue;
-            if (isSeventhColumnExclusion(getCoordinate(), currentCandidate)) continue;
-            if (isEightColumnExclusion(getCoordinate(), currentCandidate)) continue;
+            if (isFirstColumnExclusion(piecePosition, currentCandidate)
+                    || isSecondColumnExclusion(piecePosition, currentCandidate)
+                    || isSeventhColumnExclusion(piecePosition, currentCandidate)
+                    || isEightColumnExclusion(piecePosition, currentCandidate))  {
+                continue;
+            }
 
             if (BoardUtils.isValidTileCoordinate(candidateDestination)) {
-                Tile tileAtDestination = board.getTile(candidateDestination);
+                final Tile tileAtDestination = board.getTile(candidateDestination);
 
                 if (tileAtDestination.isTileEmpty()) {
-                    legalMoves.add(new Move.NormalMove(board, this, candidateDestination));
+                    legalMoves.add(new NormalMove(board, this, candidateDestination));
                 } else {
                     final Piece destinationPiece = tileAtDestination.getPiece();
                     final Alliance destinationPieceAlliance = destinationPiece.getAlliance();
 
                     if (getAlliance() != destinationPieceAlliance) {
-                        legalMoves.add(new Move.AttackMove(board, this, candidateDestination, destinationPiece));
+                        legalMoves.add(new AttackMove(board, this, candidateDestination, destinationPiece));
                     }
                 }
             }
         }
 
-        return legalMoves;
+        return List.copyOf(legalMoves);
     }
 }
