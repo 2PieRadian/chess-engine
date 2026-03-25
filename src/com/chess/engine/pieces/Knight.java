@@ -24,11 +24,11 @@ public class Knight extends Piece {
     }
 
     private static boolean isSecondColumnExclusion(final int coordinate, final int offset) {
-        return BoardUtils.SECOND_COLUMN[coordinate] && (offset == -10|| offset == 6);
+        return BoardUtils.SECOND_COLUMN[coordinate] && (offset == -10 || offset == 6);
     }
 
     private static boolean isSeventhColumnExclusion(final int coordinate, final int offset) {
-        return BoardUtils.SEVENTH_COLUMN[coordinate] && (offset == -6|| offset == 10);
+        return BoardUtils.SEVENTH_COLUMN[coordinate] && (offset == -6 || offset == 10);
     }
 
     private static boolean isEightColumnExclusion(final int coordinate, final int offset) {
